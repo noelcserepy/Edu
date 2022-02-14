@@ -1,0 +1,40 @@
+
+Quest01
+
+mkdir ex00 && touch ex00/my_first_compilation.c && mkdir ex01 && touch ex01/my_first_variable_integer.c && mkdir ex02 && touch ex02/my_first_variable_char.c && mkdir ex03 && touch ex03/my_first_variable_string.c && mkdir ex04 && touch ex04/my_multiple_variables_multiple_type.c && mkdir ex05 && touch ex05/my_first_incrementation.c && mkdir ex06 && touch ex06/my_first_if_else.c && mkdir ex07 && touch ex07/my_first_if_multiple_conditions.c && mkdir ex08 && touch ex08/my_first_function.c && mkdir ex09 && touch ex09/my_first_while.c && mkdir ex10 && touch ex10/my_first_param_function.c && mkdir ex11 && touch ex11/my_first_return_function.c && mkdir ex12 && touch ex12/my_is_negative.c && mkdir ex13 && touch ex13/my_abs.c && mkdir ex14 && touch ex14/my_isalpha.c && mkdir ex15 && touch ex15/my_isdigit.c && mkdir ex16 && touch ex16/my_islower.c && mkdir ex17 && touch ex17/my_isupper.c && mkdir ex18 && touch ex18/my_isspace.c && mkdir ex19 && touch ex19/my_print_alphabet.c && mkdir ex20 && touch ex20/my_print_reverse_alphabet.c
+
+
+
+Quest02
+
+mkdir ex00 && touch ex00/my_initializer.c && mkdir ex01 && touch ex01/my_swap.c && mkdir ex02 && touch ex02/my_strlen.c && mkdir ex03 && touch ex03/my_putstr.c && mkdir ex04 && touch ex04/my_add.c && mkdir ex05 && touch ex05/my_sub.c && mkdir ex06 && touch ex06/my_mult.c && mkdir ex07 && touch ex07/my_string_formatting.c && mkdir ex08 && touch ex08/my_string_index.c && mkdir ex09 && touch ex09/my_upcase.c && mkdir ex10 && touch ex10/my_downcase.c
+
+
+
+Quest03
+
+mkdir ex00 && touch ex00/reverse_string.c && mkdir ex01 && touch ex01/my_strcmp.c && mkdir ex02 && touch ex02/my_strcpy.c && mkdir ex03 && touch ex03/my_strncpy.c && mkdir ex04 && touch ex04/my_strchr.c && mkdir ex05 && touch ex05/my_strrchr.c && mkdir ex06 && touch ex06/my_strstr.c && mkdir ex07 && touch ex07/my_first_struct.c && mkdir ex08 && touch ex08/my_is_sort.c
+
+
+
+Quest04
+
+mkdir ex00 && touch ex00/my_range.c && mkdir ex01 && touch ex01/my_strdup.c && mkdir ex02 && touch ex02/my_print_words_array.c && mkdir ex03 && touch ex03/my_count_on_it.c && mkdir ex04 && touch ex04/my_join.c && mkdir ex05 && touch ex05/my_spaceship.c
+
+
+
+My Square
+
+mkdir ex00 && touch ex00/my_square.c
+
+
+
+Quest05
+
+mkdir ex00 && touch ex00/my_count_files && mkdir ex01 && touch ex01/my_clean && mkdir ex02 && touch ex02/my_find_sh && mkdir ex03 && touch ex03/my_patch
+
+
+
+My Cat
+
+mkdir ex00 && touch ex00/my_cat.c
