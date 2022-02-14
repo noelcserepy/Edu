@@ -1,0 +1,11 @@
+ex00
+du -a . | wc -l
+
+ex01
+find . -regex "./.*~$" -delete -print -o -regex "./#.*#$" -delete -print
+
+ex02
+find . \( -type f \) -regex ".*\.sh$" | sed -r "s/.sh$//" | sed -r "s/.*\///"
+
+ex03
+patch a sw.diff -o my_patch
