@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <time.h>
 
 typedef struct GameState
 {
@@ -62,7 +63,16 @@ int main(int argc, char *argv[])
 {
     GameState state;
     state.attempts = 10;
+    state.code_len = 4;
 
+    // Generate a random secret code
+    srand(time(0));
+    for (int i = 0; i < 4; i++)
+    {
+        state.code[i] = (rand() % 8) + 48;
+    }
+
+    // Parse argv
     for (int i = 0; i < argc; i++)
     {
         if (strcmp(argv[i], "-t") == 0)
@@ -72,7 +82,6 @@ int main(int argc, char *argv[])
         if (strcmp(argv[i], "-c") == 0)
         {
             strcpy(state.code, argv[i + 1]);
-            state.code_len = strlen(argv[i + 1]);
         }
     }
 
