@@ -38,17 +38,17 @@ void compare_codes(GameState *state)
     state->misplaced = mis;
 }
 
-int check_code(GameState *state)
+int validate_code(GameState *state, char *code)
 {
-    if (strlen(state->guess) != 4)
+    if (strlen(code) != 4)
     {
         printf("\nThe code must be EXACTLY 4 characters long.");
         state->retry = 1;
     }
     int has_alpha = 0;
-    for (int j = 0; j < strlen(state->guess); j++)
+    for (int j = 0; j < strlen(code); j++)
     {
-        if (isdigit(state->guess[j]) == 0)
+        if (isdigit(code[j]) == 0)
         {
             has_alpha = 1;
         }
@@ -58,23 +58,23 @@ int check_code(GameState *state)
         printf("\nThe code must be numerical.");
         state->retry = 1;
     }
-    printf("Try again.\n---\n");
 }
 
 int mastermind(GameState *state)
 {
-
     printf("Will you find the secret code?\n---\n");
-
+    // Main game loop
     for (int i = 0; i < state->attempts; i++)
     {
         printf("Round %d\n", i);
         scanf("%s", state->guess);
-        check_code(state);
+        validate_code(state, state->guess);
+
         if (state->retry == 1)
         {
             state->retry = 0;
             i--;
+            printf("\nTry again.\n---\n");
             continue;
         }
 
@@ -91,6 +91,37 @@ int mastermind(GameState *state)
     return 0;
 }
 
+void generate_code(GameState *state)
+{
+    // Generates a random secret code for when user doesn't enter one
+    srand(time(0));
+    for (int i = 0; i < 4; i++)
+    {
+        state->code[i] = (rand() % 8) + 48;
+    }
+}
+
+void parse_args(int argc, char *argv[], GameState *state)
+{
+    for (int i = 0; i < argc; i++)
+    {
+        if (strcmp(argv[i], "-t") == 0)
+        {
+            state->attempts = atoi(argv[i + 1]);
+            if (state->attempts < 1)
+            {
+                printf("\nThe number of attempts must be a positive integer.");
+                state->retry = 1;
+            }
+        }
+        if (strcmp(argv[i], "-c") == 0)
+        {
+            strcpy(state->code, argv[i + 1]);
+            validate_code(state, state->code);
+        }
+    }
+}
+
 int main(int argc, char *argv[])
 {
     GameState state;
@@ -98,36 +129,13 @@ int main(int argc, char *argv[])
     state.code_len = 4;
     state.retry = 0;
 
-    // Generate a random secret code
-    srand(time(0));
-    for (int i = 0; i < 4; i++)
+    generate_code(&state);
+    parse_args(argc, argv, &state);
+    if (state.retry == 1)
     {
-        state.code[i] = (rand() % 8) + 48;
+        printf("\nTry again.\n---\n");
+        return 0;
     }
-
-    // Parse argv
-    for (int i = 0; i < argc; i++)
-    {
-        if (strcmp(argv[i], "-t") == 0)
-        {
-            state.attempts = atoi(argv[i + 1]);
-            if (state.attempts < 1)
-            {
-                printf("The number of attempts must be a positive integer.\n");
-                return 0;
-            }
-        }
-        if (strcmp(argv[i], "-c") == 0)
-        {
-            strcpy(state.code, argv[i + 1]);
-            check_code(&state);
-            if (state.retry == 1)
-            {
-                return 0;
-            }
-        }
-    }
-
     mastermind(&state);
 
     return 0;
