@@ -38,15 +38,26 @@ void compare_codes(GameState *state)
     state->misplaced = mis;
 }
 
-void validate_code(GameState *state, char *code)
+void check_duplicates(GameState *state, char *code)
 {
-    if (strlen(code) != 4)
+    for (int i = 0; i < (int)strlen(code); i++)
     {
-        printf("\nThe code must be EXACTLY 4 characters long.");
-        state->retry = 1;
+        for (int j = i + 1; j < (int)strlen(code); j++)
+        {
+            if (code[j] == code[i])
+            {
+                printf("\nThe code must not contain duplicates.");
+                state->retry = 1;
+                return;
+            }
+        }
     }
+}
+
+void check_alpha(GameState *state, char *code)
+{
     int has_alpha = 0;
-    for (int i = 0; i < strlen(code); i++)
+    for (int i = 0; i < (int)strlen(code); i++)
     {
         if (isdigit(code[i]) == 0)
         {
@@ -58,19 +69,18 @@ void validate_code(GameState *state, char *code)
         printf("\nThe code must be numerical.");
         state->retry = 1;
     }
+}
 
-    for (int i = 0; i < strlen(code); i++)
+void validate_code(GameState *state, char *code)
+{
+    if (strlen(code) != 4)
     {
-        for (int j = i + 1; j < strlen(code); j++)
-        {
-            if (code[j] == code[i])
-            {
-                printf("\nThe code must not contain duplicates.");
-                state->retry = 1;
-                return;
-            }
-        }
+        printf("\nThe code must be EXACTLY 4 characters long.");
+        state->retry = 1;
     }
+
+    check_alpha(state, code);
+    check_duplicates(state, code);
 }
 
 int mastermind(GameState *state)
