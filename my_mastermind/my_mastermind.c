@@ -38,7 +38,7 @@ void compare_codes(GameState *state)
     state->misplaced = mis;
 }
 
-int validate_code(GameState *state, char *code)
+void validate_code(GameState *state, char *code)
 {
     if (strlen(code) != 4)
     {
@@ -46,9 +46,9 @@ int validate_code(GameState *state, char *code)
         state->retry = 1;
     }
     int has_alpha = 0;
-    for (int j = 0; j < strlen(code); j++)
+    for (int i = 0; i < strlen(code); i++)
     {
-        if (isdigit(code[j]) == 0)
+        if (isdigit(code[i]) == 0)
         {
             has_alpha = 1;
         }
@@ -57,6 +57,19 @@ int validate_code(GameState *state, char *code)
     {
         printf("\nThe code must be numerical.");
         state->retry = 1;
+    }
+
+    for (int i = 0; i < strlen(code); i++)
+    {
+        for (int j = i + 1; j < strlen(code); j++)
+        {
+            if (code[j] == code[i])
+            {
+                printf("\nThe code must not contain duplicates.");
+                state->retry = 1;
+                return;
+            }
+        }
     }
 }
 
