@@ -38,7 +38,7 @@ void compare_codes(GameState *state)
     state->misplaced = mis;
 }
 
-void check_duplicates(GameState *state, char *code)
+void check_duplicates(GameState *state, char *code, int silent)
 {
     for (int i = 0; i < (int)strlen(code); i++)
     {
@@ -46,7 +46,10 @@ void check_duplicates(GameState *state, char *code)
         {
             if (code[j] == code[i])
             {
-                printf("\nThe code must not contain duplicates.");
+                if (silent != 1)
+                {
+                    printf("\nThe code must not contain duplicates.");
+                }
                 state->retry = 1;
                 return;
             }
@@ -80,7 +83,7 @@ void validate_code(GameState *state, char *code)
     }
 
     check_alpha(state, code);
-    check_duplicates(state, code);
+    check_duplicates(state, code, 0);
 }
 
 int mastermind(GameState *state)
@@ -110,6 +113,11 @@ int mastermind(GameState *state)
         }
 
         printf("Well placed pieces: %d\nMisplaced pieces: %d\n---\n", state->well_placed, state->misplaced);
+
+        if (i == (state->attempts - 1))
+        {
+            printf("Game over. \nThe correct code was: %s", state->code);
+        }
     }
     return 0;
 }
@@ -117,10 +125,17 @@ int mastermind(GameState *state)
 void generate_code(GameState *state)
 {
     // Generates a random secret code for when user doesn't enter one
-    srand(time(0));
     for (int i = 0; i < 4; i++)
     {
         state->code[i] = (rand() % 8) + 48;
+    }
+    state->code[4] = '\0';
+
+    check_duplicates(state, state->code, 1);
+    if (state->retry == 1)
+    {
+        state->retry = 0;
+        generate_code(state);
     }
 }
 
@@ -151,6 +166,7 @@ int main(int argc, char *argv[])
     state.attempts = 10;
     state.code_len = 4;
     state.retry = 0;
+    srand(time(0));
 
     generate_code(&state);
     parse_args(argc, argv, &state);
