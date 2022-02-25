@@ -48,7 +48,7 @@ void check_duplicates(GameState *state, char *code, int silent)
             {
                 if (silent != 1)
                 {
-                    printf("\nThe code must not contain duplicates.");
+                    printf("\nWrong input!\nThe code must not contain duplicates.");
                 }
                 state->retry = 1;
                 return;
@@ -69,7 +69,7 @@ void check_alpha(GameState *state, char *code)
     }
     if (has_alpha == 1)
     {
-        printf("\nThe code must be numerical.");
+        printf("\nWrong input!\nThe code must be numerical.");
         state->retry = 1;
     }
 }
@@ -78,7 +78,7 @@ void validate_code(GameState *state, char *code)
 {
     if (strlen(code) != 4)
     {
-        printf("\nThe code must be EXACTLY 4 characters long.");
+        printf("\nWrong input!\nThe code must be EXACTLY 4 characters long.");
         state->retry = 1;
     }
 
@@ -148,7 +148,7 @@ void parse_args(int argc, char *argv[], GameState *state)
             state->attempts = atoi(argv[i + 1]);
             if (state->attempts < 1)
             {
-                printf("\nThe number of attempts must be a positive integer.");
+                printf("\nWrong input!\nThe number of attempts must be a positive integer.");
                 state->retry = 1;
             }
         }
