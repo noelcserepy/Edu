@@ -82,6 +82,16 @@ void validate_code(GameState *state, char *code)
         state->retry = 1;
     }
 
+    for (int i = 0; i < (int)strlen(code); i++)
+    {
+        int current_digit = code[i] - '0';
+        if (current_digit > 7)
+        {
+            printf("\nWrong input!\nThe code must contain numbers only between 0-7.");
+            state->retry = 1;
+        }
+    }
+
     check_alpha(state, code);
     check_duplicates(state, code, 0);
 }
