@@ -19,13 +19,9 @@ void my_ngram(int argc, char **argv)
             while (str[j] != '\0')
             {
                 if (j == '\"')
-                {
                     continue;
-                }
                 if (str[j] == i)
-                {
                     counts[i]++;
-                }
                 j++;
             }
         }
