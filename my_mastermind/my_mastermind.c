@@ -122,6 +122,8 @@ void generate_code(GameState *state)
     {
         state->code[i] = (rand() % 8) + 48;
     }
+    check_duplicates(state, state->code);
+    if
 }
 
 void parse_args(int argc, char *argv[], GameState *state)
