@@ -12,52 +12,60 @@ int my_putchar(char c)
 // write some code for \ escapes
 // return number of chars printed
 
+void print_arg(char *type_char, va_list va_list)
+{
+}
+
 char my_printf(char *format, ...)
 {
-    int arg_count = 0;
-    int i = 0;
-    while (format[i])
-    {
-        if (strcmp(format[i], '%') == 0)
-        {
-            arg_count++;
-        }
-
-        i++;
-    }
+    char *current;
+    unsigned int i;
+    char *s;
     va_list valist;
-    va_start(valist, arg_count);
+    va_start(valist, format);
 
-    for (int i = 0; i < strlen(format); i++)
+    for (current = format; *current != '\0'; current++)
     {
-        if (strcmp(format[i], '%') == 0)
+        while (*current != '%')
         {
-            if (strcmp(format[i + 1], 'doux') == 0) // make this read doux
-            {
-            }
-            if (strcmp(format[i + 1], 'c') == 0)
-            {
-                char c = va_arg(valist, char);
-            }
-            if (strcmp(format[i + 1], 's') == 0)
-            {
-                char *s = va_arg(valist, char *);
-            }
-            if (strcmp(format[i + 1], 'p') == 0)
-            {
-                void *p = va_arg(valist, void *);
-            }
-
-            arg_count++;
+            my_putchar(*current);
+            current++;
         }
-        my_putchar(format[i]);
-    }
+        current++;
 
+        switch (*current)
+        {
+        case 'd':
+            i = va_arg(valist, int);
+            my_putchar(i);
+            break;
+        case 'o':
+            i = va_arg(valist, int);
+            my_putchar(i);
+            break;
+        case 's':
+            s = va_arg(valist, char *);
+            int j = 0;
+            while (j < strlen(s))
+            {
+                my_putchar(s[j]);
+                j++;
+            }
+            break;
+        case 'x':
+            i = va_arg(valist, int);
+            my_putchar(i);
+            break;
+        case 'c':
+            i = va_arg(valist, int);
+            my_putchar(i);
+            break;
+        }
+    }
     va_end(valist);
 }
 
 int main(int ac, char **av)
 {
-    my_printf("hoi");
-    printf();
+    my_printf("hoi %s %p %d", "gaggi", "1234123", "3");
 }
