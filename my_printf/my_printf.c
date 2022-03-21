@@ -6,12 +6,9 @@
 
 int my_putchar(char c, int *count)
 {
+    ++*count;
     return write(1, &c, 1);
-    *count++;
 }
-
-// write some code for \ escapes
-// return number of chars printed
 
 void print_string(char *s, int *count)
 {
@@ -23,6 +20,24 @@ void print_string(char *s, int *count)
     }
 }
 
+char *utoa(unsigned int num, int base)
+{
+    char rep[] = "0123456789abcdef";
+    char buffer[50];
+    char *ptr;
+
+    ptr = &buffer[49];
+    *ptr = '\0';
+
+    do
+    {
+        *--ptr = rep[num % base];
+        num /= base;
+    } while (num != 0);
+
+    return (ptr);
+}
+
 char my_printf(char *format, ...)
 {
     int *count = malloc(sizeof(int));
@@ -31,6 +46,9 @@ char my_printf(char *format, ...)
     unsigned int u;
     char *s;
     char buffer[50];
+    void *vptr;
+    intptr_t *intptr;
+
     va_list valist;
     va_start(valist, format);
 
@@ -52,23 +70,22 @@ char my_printf(char *format, ...)
             break;
         case 'o':
             u = va_arg(valist, int);
-            itoa(u, buffer, 8);
-            print_string(buffer, count);
+            print_string(utoa(u, 8), count);
             break;
         case 'u':
-            u = va_arg(valist, unsigned int);
-            itoa(u, buffer, 10);
-            print_string(buffer, count);
+            u = va_arg(valist, int);
+            print_string(utoa(u, 10), count);
             break;
         case 'x':
-            u = va_arg(valist, unsigned int);
-            itoa(u, buffer, 16);
-            print_string(buffer, count);
+            u = va_arg(valist, int);
+            print_string(utoa(u, 16), count);
             break;
         case 'p':
-            i = va_arg(valist, int);
-            itoa(i, buffer, 16);
-            print_string(buffer, count);
+            vptr = va_arg(valist, void *);
+            intptr_t *intptr = vptr;
+            print_string(utoa(intptr, 16), count);
+            // itoa(intptr, buffer, 16);
+            // print_string(buffer, count);
             break;
         case 's':
             s = va_arg(valist, char *);
@@ -86,10 +103,11 @@ char my_printf(char *format, ...)
 
 int main(int ac, char **av)
 {
-    void *a;
+    int a;
     int count;
-    count = printf("OG: %d %o %u %x %p %s %c\n", -1234123, 12, -13, 16, a, "saliduli", 'k');
+    int countb;
+    count = printf("OG: %d %o %u %x %p %s %c\n", -1234123, -12, -13, -16, &a, "saliduli", 'k');
     printf("%d\n", count);
-    count = my_printf("Mine: %d %o %u %x %p %s %c\n", -1234123, 12, -13, 16, a, "saliduli", 'k');
-    printf("%d\n", count);
+    countb = my_printf("Mine: %d %o %u %x %p %s %c\n", -1234123, -12, -13, -16, &a, "saliduli", 'k');
+    printf("%d\n", countb);
 }
