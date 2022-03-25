@@ -3,8 +3,7 @@ import { faHeart } from "@fortawesome/free-regular-svg-icons";
 import { faHeart as solidHeart } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-const Like = (props) => {
-	const { onLike, liked } = props;
+const Like = ({ onLike, liked }) => {
 	return (
 		<span onClick={onLike}>
 			<FontAwesomeIcon
