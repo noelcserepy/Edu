@@ -1,5 +1,6 @@
 {
 	"files.associations": {
-		"cwchar": "c"
+		"cwchar": "c",
+		"cstdint": "c"
 	}
 }
