@@ -25,9 +25,6 @@ class TableBody extends Component {
 						))}
 					</tr>
 				))}
-				<tr>
-					<td></td>
-				</tr>
 			</tbody>
 		);
 	}

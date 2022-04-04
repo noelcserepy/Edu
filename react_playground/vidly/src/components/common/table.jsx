@@ -1,10 +1,10 @@
-import React, { Component } from "react";
+import React from "react";
 import TableBody from "./tableBody";
 import TableHeader from "./tableHeader";
 
 const Table = ({ columns, sortColumn, data, onSort }) => {
 	return (
-		<table className="table">
+		<table className="table vertival-align: middle w-50">
 			<TableHeader columns={columns} sortColumn={sortColumn} onSort={onSort} />
 			<TableBody data={data} columns={columns} />
 		</table>
