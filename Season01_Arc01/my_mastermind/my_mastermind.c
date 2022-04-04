@@ -139,6 +139,10 @@ void generate_code(GameState *state)
     {
         state->code[i] = (rand() % 8) + 48;
     }
+<<<<<<< HEAD:my_mastermind/my_mastermind.c
+    check_duplicates(state, state->code);
+    if
+=======
     state->code[4] = '\0';
 
     check_duplicates(state, state->code, 1);
@@ -147,6 +151,7 @@ void generate_code(GameState *state)
         state->retry = 0;
         generate_code(state);
     }
+>>>>>>> 287d0539e6da7f0b647afcbb44bb5fe3e9057d44:Season01_Arc01/my_mastermind/my_mastermind.c
 }
 
 void parse_args(int argc, char *argv[], GameState *state)
