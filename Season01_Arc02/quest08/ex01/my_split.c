@@ -2,38 +2,54 @@
 #include <stdlib.h>
 #include <string.h>
 
-char **my_split(char *str, char *sep)
+#ifndef STRUCT_STRING_ARRAY
+#define STRUCT_STRING_ARRAY
+typedef struct s_string_array
 {
-    int previous_cut = 0;
-    char *push = (char *)malloc(sizeof(str));
-    int push_index = 0;
-    char **ret = malloc(50 * sizeof(char *));
-    int ret_index = 0;
+    int size;
+    char **array;
+} string_array;
+#endif
+
+string_array *my_split(char *str, char *sep)
+{
+    char *temp = (char *)malloc(sizeof(str));
+    int temp_index = 0;
+    int arr_index = 0;
+    string_array *arr = malloc(sizeof(struct s_string_array));
+    arr->array = malloc(50 * sizeof(char *));
 
     for (int i = 0; i < strlen(str); ++i)
     {
-        if ((str[i] == sep[0]) || i == (strlen(str) - 1))
+        if (i == (strlen(str) - 1))
         {
-            push[push_index + 1] = '\0';
-            ret[ret_index] = malloc(sizeof(push));
-            strcpy(ret[ret_index], push);
-            push_index = 0;
-            ret_index++;
+            temp[temp_index] = str[i];
+            temp[temp_index + 1] = '\0';
+            arr->array[arr_index] = malloc(sizeof(temp));
+            strcpy(arr->array[arr_index], temp);
+            temp_index = 0;
+            arr_index++;
             continue;
         }
-        push[push_index] = str[i];
-        push_index++;
+        if (str[i] == sep[0])
+        {
+            temp[temp_index + 1] = '\0';
+            arr->array[arr_index] = malloc(sizeof(temp));
+            strcpy(arr->array[arr_index], temp);
+            temp_index = 0;
+            arr_index++;
+            continue;
+        }
+        temp[temp_index] = str[i];
+        temp_index++;
     }
-    return ret;
+    arr->size = arr_index;
+
+    return arr;
 }
 
 int main()
 {
-    char **arr = my_split("abc def hij", " ");
-
-    for (int i = 0; i < 3; i++)
-    {
-        printf("%s ", arr[i]);
-    }
+    string_array *arr = my_split("abc def gh-!", "-");
     return 1;
 }

@@ -4,7 +4,7 @@
 
 char *my_strip(char *str)
 {
-    char *ret = (char *)malloc(sizeof(str));
+    char *ret = (char *)malloc(strlen(str) * (sizeof(char)));
     int index = 0;
 
     int start = 0;
@@ -13,13 +13,13 @@ char *my_strip(char *str)
         start++;
     }
 
-    int end = strlen(str) - 1;
-    while (str[end] == ' ')
+    int end = strlen(str);
+    while (str[end - 1] == ' ')
     {
         end--;
     }
 
-    for (int i = start; i < end + 1; ++i)
+    for (int i = start; i < end; ++i)
     {
         if (str[i] == ' ')
         {
@@ -41,6 +41,6 @@ char *my_strip(char *str)
 
 int main()
 {
-    printf("%s", my_strip("       abc        def    hij  "));
+    printf("%s", my_strip("See? It's easy to print the same thing"));
     return 1;
 }
