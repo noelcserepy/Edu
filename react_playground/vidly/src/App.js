@@ -15,8 +15,8 @@ function App() {
 			<Routes>
 				<Route path="/" element={<Layout />}>
 					<Route path="/" element={<Navigate to="/movies" />} />
-					<Route path="/login" element={<LoginForm />} />
-					<Route path="/register" element={<RegisterForm />} />
+					<Route path="login" element={<LoginForm />} />
+					<Route path="register" element={<RegisterForm />} />
 					<Route path="movies" element={<Movies />} />
 					<Route path="movies/:movieId" element={<MovieForm />} />
 					<Route path="customers" element={<Customers />} />

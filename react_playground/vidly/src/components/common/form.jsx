@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import Joi from "joi-browser";
 import Input from "./input";
 import Select from "./select";
+import { Link } from "react-router-dom";
 
 class Form extends Component {
 	state = { data: {}, errors: {} };
@@ -46,14 +47,16 @@ class Form extends Component {
 		this.setState({ data, errors });
 	};
 
-	renderButton = (label, onSave) => {
+	renderButton = (label, dest, onSave) => {
 		return (
-			<button
-				disabled={this.validate()}
-				onClick={onSave}
-				className="btn btn-primary mt-2">
-				{label}
-			</button>
+			<Link to={dest}>
+				<button
+					disabled={this.validate()}
+					className="btn btn-primary mt-2"
+					onClick={onSave}>
+					{label}
+				</button>
+			</Link>
 		);
 	};
 
