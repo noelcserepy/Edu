@@ -1,17 +1,18 @@
-import React, { Component } from "react";
+import React, { useContext } from "react";
 import Joi from "joi-browser";
 import Input from "./input";
 import Select from "./select";
 import { Link } from "react-router-dom";
+import FormDataContext from "../../utils/formDataContext";
 
-class Form extends Component {
-	state = { data: {}, errors: {} };
+const Form = () => {
+	const fdc = useContext(FormDataContext);
 
-	validate = () => {
+	const validate = () => {
 		const options = {
 			abortEarly: false,
 		};
-		const { error } = Joi.validate(this.state.data, this.schema, options);
+		const { error } = Joi.validate(fdc.state.data, fdc.schema, options);
 		if (!error) return null;
 
 		const errors = {};
@@ -19,39 +20,39 @@ class Form extends Component {
 		return errors;
 	};
 
-	validateProperty = ({ name, value }) => {
+	const validateProperty = ({ name, value }) => {
 		const obj = { [name]: value };
-		const schema = { [name]: this.schema[name] };
+		const schema = { [name]: fdc.schema[name] };
 		const { error } = Joi.validate(obj, schema);
 		return error ? error.details[0].message : null;
 	};
 
-	handleSubmit = e => {
+	const handleSubmit = e => {
 		e.preventDefault();
 
-		const errors = this.validate();
-		this.setState({ errors: errors || {} });
+		const errors = validate();
+		fdc.setState({ errors: errors || {} });
 		if (errors) return;
 
-		this.doSubmit();
+		console.log("submitted");
 	};
 
-	handleChange = ({ currentTarget: input }) => {
-		const errors = { ...this.state.errors };
-		const errorMessage = this.validateProperty(input);
+	const handleChange = ({ currentTarget: input }) => {
+		const errors = { ...fdc.state.errors };
+		const errorMessage = validateProperty(input);
 		if (errorMessage) errors[input.name] = errorMessage;
 		else delete errors[input.name];
 
-		const data = { ...this.state.data };
+		const data = { ...fdc.state.data };
 		data[input.name] = input.value;
-		this.setState({ data, errors });
+		fdc.setState({ data, errors });
 	};
 
-	renderButton = (label, dest, onSave) => {
+	const renderButton = (label, dest, onSave) => {
 		return (
 			<Link to={dest}>
 				<button
-					disabled={this.validate()}
+					disabled={validate()}
 					className="btn btn-primary mt-2"
 					onClick={onSave}>
 					{label}
@@ -60,8 +61,8 @@ class Form extends Component {
 		);
 	};
 
-	renderInput = (name, label, type = "text") => {
-		const { data, errors } = this.state;
+	const renderInput = (name, label, type = "text") => {
+		const { data, errors } = fdc.state;
 
 		return (
 			<Input
@@ -70,13 +71,13 @@ class Form extends Component {
 				label={label}
 				value={data[name]}
 				error={errors[name]}
-				onChange={this.handleChange}
+				onChange={handleChange}
 			/>
 		);
 	};
 
-	renderSelect = (name, label, items) => {
-		const { data, errors } = this.state;
+	const renderSelect = (name, label, items) => {
+		const { data, errors } = fdc.state;
 
 		return (
 			<Select
@@ -85,10 +86,98 @@ class Form extends Component {
 				items={items}
 				value={data[name]}
 				error={errors[name]}
-				onChange={this.handleChange}
+				onChange={handleChange}
 			/>
 		);
 	};
-}
+};
 
 export default Form;
+// class Form extends Component {
+// 	state = { data: {}, errors: {} };
+
+// 	validate = () => {
+// 		const options = {
+// 			abortEarly: false,
+// 		};
+// 		const { error } = Joi.validate(this.state.data, this.schema, options);
+// 		if (!error) return null;
+
+// 		const errors = {};
+// 		error.details.map(d => (errors[d.path[0]] = d.message));
+// 		return errors;
+// 	};
+
+// 	validateProperty = ({ name, value }) => {
+// 		const obj = { [name]: value };
+// 		const schema = { [name]: this.schema[name] };
+// 		const { error } = Joi.validate(obj, schema);
+// 		return error ? error.details[0].message : null;
+// 	};
+
+// 	handleSubmit = e => {
+// 		e.preventDefault();
+
+// 		const errors = this.validate();
+// 		this.setState({ errors: errors || {} });
+// 		if (errors) return;
+
+// 		this.doSubmit();
+// 	};
+
+// 	handleChange = ({ currentTarget: input }) => {
+// 		const errors = { ...this.state.errors };
+// 		const errorMessage = this.validateProperty(input);
+// 		if (errorMessage) errors[input.name] = errorMessage;
+// 		else delete errors[input.name];
+
+// 		const data = { ...this.state.data };
+// 		data[input.name] = input.value;
+// 		this.setState({ data, errors });
+// 	};
+
+// 	renderButton = (label, dest, onSave) => {
+// 		return (
+// 			<Link to={dest}>
+// 				<button
+// 					disabled={this.validate()}
+// 					className="btn btn-primary mt-2"
+// 					onClick={onSave}>
+// 					{label}
+// 				</button>
+// 			</Link>
+// 		);
+// 	};
+
+// 	renderInput = (name, label, type = "text") => {
+// 		const { data, errors } = this.state;
+
+// 		return (
+// 			<Input
+// 				type={type}
+// 				name={name}
+// 				label={label}
+// 				value={data[name]}
+// 				error={errors[name]}
+// 				onChange={this.handleChange}
+// 			/>
+// 		);
+// 	};
+
+// 	renderSelect = (name, label, items) => {
+// 		const { data, errors } = this.state;
+
+// 		return (
+// 			<Select
+// 				name={name}
+// 				label={label}
+// 				items={items}
+// 				value={data[name]}
+// 				error={errors[name]}
+// 				onChange={this.handleChange}
+// 			/>
+// 		);
+// 	};
+// }
+
+// export default Form;

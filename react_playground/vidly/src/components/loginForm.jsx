@@ -1,37 +1,40 @@
-import React, { Component } from "react";
+import React, { Component, useEffect, useState } from "react";
 import Joi from "joi-browser";
 import Form from "./common/form";
+import FormDataContext from "../utils/formDataContext";
 
-class LoginForm extends Form {
-	state = {
-		data: {
-			username: "",
-			password: "",
-		},
-		errors: {},
-	};
+const LoginForm = () => {
+	const [state, setState] = useState();
 
-	schema = {
+	useEffect(() => {
+		state = {
+			data: {
+				username: "",
+				password: "",
+			},
+			errors: {},
+		};
+	}, [state]);
+
+	const schema = {
 		username: Joi.string().required().label("Username"),
 		password: Joi.string().required().label("Password"),
 	};
 
-	doSubmit = () => {
-		console.log("submitted");
-	};
+	const formData = { state, schema, setState };
 
-	render() {
-		return (
-			<div>
+	return (
+		<div>
+			<FormDataContext value={formData}>
 				<h1>Login</h1>
-				<form onSubmit={this.handleSubmit}>
-					{this.renderInput("username", "Username")}
-					{this.renderInput("password", "Password", "password")}
-					{this.renderButton("Login")}
+				<form onSubmit={Form.handleSubmit}>
+					{Form.renderInput("username", "Username")}
+					{Form.renderInput("password", "Password", "password")}
+					{Form.renderButton("Login")}
 				</form>
-			</div>
-		);
-	}
-}
+			</FormDataContext>
+		</div>
+	);
+};
 
 export default LoginForm;

@@ -1,18 +1,23 @@
-import React, { Component } from "react";
-import Form from "./common/form";
+import React, { Component, useEffect, useState } from "react";
 import Joi from "joi-browser";
+import Form from "./common/form";
+import FormDataContext from "../utils/formDataContext";
 
-class RegisterForm extends Form {
-	state = {
-		data: {
-			username: "",
-			password: "",
-			name: "",
-		},
-		errors: {},
-	};
+const RegisterForm = () => {
+	const [state, setState] = useState();
 
-	schema = {
+	useEffect(() => {
+		state = {
+			data: {
+				username: "",
+				password: "",
+				name: "",
+			},
+			errors: {},
+		};
+	}, [state]);
+
+	const schema = {
 		username: Joi.string()
 			.email({ minDomainSegments: 2 })
 			.required()
@@ -21,23 +26,21 @@ class RegisterForm extends Form {
 		name: Joi.string().required().label("Name"),
 	};
 
-	doSubmit = () => {
-		console.log("submitted");
-	};
+	const formData = { state, schema, setState };
 
-	render() {
-		return (
-			<div>
+	return (
+		<div>
+			<FormDataContext value={formData}>
 				<h1>Register</h1>
-				<form onSubmit={this.handleSubmit}>
-					{this.renderInput("username", "Username")}
-					{this.renderInput("password", "Password", "password")}
-					{this.renderInput("name", "Name")}
-					{this.renderButton("Register")}
+				<form onSubmit={Form.handleSubmit}>
+					{Form.renderInput("username", "Username")}
+					{Form.renderInput("password", "Password", "password")}
+					{Form.renderInput("name", "Name")}
+					{Form.renderButton("Register")}
 				</form>
-			</div>
-		);
-	}
-}
+			</FormDataContext>
+		</div>
+	);
+};
 
 export default RegisterForm;

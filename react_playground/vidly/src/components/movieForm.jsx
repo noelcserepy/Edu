@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from "react";
-import Form from "./common/form";
+import React, { createContext, useEffect, useState } from "react";
 import Joi from "joi-browser";
+import Form from "./common/form";
+import FormDataContext from "../utils/formDataContext";
 import { getGenres } from "../services/fakeGenreService";
 import { saveMovie } from "../services/fakeMovieService";
 import { useParams } from "react-router-dom";
@@ -31,16 +32,20 @@ const MovieForm = props => {
 		rate: Joi.number().min(0).max(10).label("Rate"),
 	};
 
+	const formData = { state, schema, setState };
+
 	return (
 		<div>
-			<h1>Movie Form</h1>
-			<form onSubmit={() => saveMovie(state.data)}>
-				{Form.renderInput("title", "Title")}
-				{Form.renderSelect("genre", "Genre", state.genres)}
-				{Form.renderInput("stock", "Stock")}
-				{Form.renderInput("rate", "Rate")}
-				{Form.renderButton("Save", "../movies")}
-			</form>
+			<FormDataContext.Provider value={formData}>
+				<h1>Movie Form</h1>
+				<form onSubmit={() => saveMovie(state.data)}>
+					{Form.renderInput("title", "Title")}
+					{Form.renderSelect("genre", "Genre", state.genres)}
+					{Form.renderInput("stock", "Stock")}
+					{Form.renderInput("rate", "Rate")}
+					{Form.renderButton("Save", "../movies")}
+				</form>
+			</FormDataContext.Provider>
 		</div>
 	);
 };
