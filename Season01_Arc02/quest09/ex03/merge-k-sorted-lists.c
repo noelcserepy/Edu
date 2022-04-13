@@ -132,27 +132,32 @@ listnode *insert(listnode *prev, listnode *current, int value)
 
 listnode *merge_k_sorted_lists(listnode_array *arr)
 {
-    // Set new to head of first list from arr
     listnode *new = create_new_head();
     new = arr->array[0];
 
     // Loop through each list and slot them into the new list based on their value
     for (int i = 1; i < arr->size; i++)
     {
-        print_linked_list(new);
-
+        // Loop through return list and insert at correct location
         listnode *current = arr->array[i];
+        listnode *current_new = new;
+        listnode *previous;
         while (current != NULL)
         {
             // Insert value in new list
-            listnode *current_new = new;
-            listnode *previous = new;
+            current_new = new;
             while (current_new != NULL)
             {
-                // printf("%d / %d\n", current->value, current_new->value);
                 if (current->value <= current_new->value)
                 {
-                    insert(previous, current_new, current->value);
+                    if (current_new == new)
+                    {
+                        new = prepend(new, current->value);
+                    }
+                    else
+                    {
+                        insert(previous, current_new, current->value);
+                    }
                     break;
                 }
                 if (current_new->next == NULL)
@@ -193,6 +198,9 @@ int main()
 
     listnode *new = merge_k_sorted_lists(arr);
     print_linked_list(new);
+
+    // insert(arr->array[0], arr->array[0]->next, 8);
+    // print_linked_list(arr->array[0]);
 
     return 0;
 }
