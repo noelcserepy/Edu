@@ -8,6 +8,8 @@ import {
 	getDocs,
 	limit,
 	orderBy,
+	collectionGroup,
+	startAfter,
 } from "firebase/firestore";
 import { getStorage } from "firebase/storage";
 
@@ -53,13 +55,16 @@ export async function getUserPosts(userDoc) {
 
 	const q = query(
 		postsRef,
-		where("published", "==", false),
+		where("published", "==", true),
 		orderBy("createdAt", "desc"),
 		limit(5)
 	);
 
 	const snap = await getDocs(q);
-	return snap;
+	const posts = [];
+	snap.forEach(p => posts.push(postToJSON(p)));
+
+	return posts;
 }
 
 export function postToJSON(doc) {
@@ -71,4 +76,27 @@ export function postToJSON(doc) {
 	};
 
 	return d;
+}
+
+export async function getHomePosts(lim, afterDoc = null) {
+	const postsRef = collectionGroup(firestore, "posts");
+	if (afterDoc) {
+		const q = query(
+			postsRef,
+			where("published", "==", true),
+			orderBy("createdAt", "desc"),
+			startAfter(afterDoc),
+			limit(lim)
+		);
+		const snap = await getDocs(q);
+		return snap;
+	}
+	const q = query(
+		postsRef,
+		where("published", "==", true),
+		orderBy("createdAt", "desc"),
+		limit(lim)
+	);
+	const snap = await getDocs(q);
+	return snap;
 }

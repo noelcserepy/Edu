@@ -16,9 +16,7 @@ export async function getServerSideProps({ query }) {
 
 	if (userDoc) {
 		user = userDoc.data();
-
-		const postSnap = await getUserPosts(userDoc);
-		postSnap.forEach(p => posts.push(postToJSON(p)));
+		posts = await getUserPosts(userDoc);
 	}
 
 	return {
