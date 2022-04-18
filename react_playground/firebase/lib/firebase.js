@@ -1,6 +1,14 @@
 import { initializeApp, getApps, getApp } from "firebase/app";
 import { getAuth, GoogleAuthProvider } from "firebase/auth";
-import { getFirestore } from "firebase/firestore";
+import {
+	getFirestore,
+	collection,
+	query,
+	where,
+	getDocs,
+	limit,
+	orderBy,
+} from "firebase/firestore";
 import { getStorage } from "firebase/storage";
 
 const firebaseConfig = {
@@ -25,3 +33,42 @@ export const auth = getAuth(firebaseApp);
 export const googleAuthProvider = new GoogleAuthProvider();
 export const firestore = getFirestore(firebaseApp);
 export const storage = getStorage(firebaseApp);
+
+/**
+ * @param {string} username
+ */
+
+export async function getUserWithUsername(username) {
+	const q = query(
+		collection(firestore, "users"),
+		where("username", "==", username),
+		limit(1)
+	);
+	const snap = await getDocs(q);
+	return snap.docs[0];
+}
+
+export async function getUserPosts(userDoc) {
+	const postsRef = collection(firestore, userDoc.ref.path, "posts");
+
+	const q = query(
+		postsRef,
+		where("published", "==", false),
+		orderBy("createdAt", "desc"),
+		limit(5)
+	);
+
+	const snap = await getDocs(q);
+	return snap;
+}
+
+export function postToJSON(doc) {
+	const data = doc.data();
+	const d = {
+		...data,
+		createdAt: data.createdAt.toMillis(),
+		updatedAt: data.updatedAt.toMillis(),
+	};
+
+	return d;
+}

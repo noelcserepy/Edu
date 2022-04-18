@@ -1,11 +1,14 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+#ifndef STRUCT_LISTNODE
+#define STRUCT_LISTNODE
 typedef struct s_listnode
 {
     int value;
     struct s_listnode *next;
 } listnode;
+#endif
 
 listnode *create_new_head()
 {
@@ -66,17 +69,27 @@ void print_linked_list(listnode *head)
 
 listnode *remove_nth_node_from_end_of_list(listnode *head, int n)
 {
+    if (head == NULL)
+    {
+        return head;
+    }
+
     listnode *current = head;
-    int counter = 1;
+    int item_count = 1;
 
     while (current->next != NULL)
     {
         current = current->next;
-        counter++;
+        item_count++;
     }
 
-    int remove_index = counter - (n - 1);
-    counter = 1;
+    int remove_index = item_count - (n - 1);
+    if (remove_index == 1)
+    {
+        return head->next;
+    }
+
+    int counter = 1;
     current = head;
     listnode *previous;
     while (counter != remove_index)
@@ -93,13 +106,13 @@ int main()
 {
     listnode *head = create_new_head();
 
-    for (int i = 0; i < 10; i++)
+    for (int i = 1; i < 2; i++)
     {
         append(head, i);
     }
 
     print_linked_list(head);
-    listnode *new = remove_nth_node_from_end_of_list(head, 4);
+    listnode *new = remove_nth_node_from_end_of_list(head, 2);
     print_linked_list(new);
 
     return 0;

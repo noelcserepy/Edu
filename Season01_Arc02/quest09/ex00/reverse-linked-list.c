@@ -1,11 +1,14 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+#ifndef STRUCT_LISTNODE
+#define STRUCT_LISTNODE
 typedef struct s_listnode
 {
     int value;
     struct s_listnode *next;
 } listnode;
+#endif
 
 listnode *create_new_head()
 {
