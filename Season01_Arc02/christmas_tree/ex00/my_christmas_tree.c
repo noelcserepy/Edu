@@ -21,6 +21,11 @@ void print_base(int width, int base)
 {
     int spaces = (width - base) / 2;
 
+    if (base % 2 == 0)
+    {
+        spaces += 1;
+    }
+
     for (int i = 0; i < base; i++)
     {
         for (int i = 0; i < spaces; i++)
@@ -76,7 +81,7 @@ void my_christmas_tree(int sections)
 
     int width = stars_array[(k - 1)];
 
-    for (int i = 0; i < (k - 1); i++)
+    for (int i = 0; i < k; i++)
     {
         print_row(width, stars_array[i]);
     }
@@ -85,15 +90,16 @@ void my_christmas_tree(int sections)
 
 int main(int argc, char *argv[])
 {
-    if (argc > 0)
-    {
-        int sections = atoi(argv[1]);
-        my_christmas_tree(sections);
-    }
-    else
-    {
-        printf("You gotta pass the right args man");
-    }
+    my_christmas_tree(2);
+    // if (argc > 0)
+    // {
+    //     int sections = atoi(argv[1]);
+    //     my_christmas_tree(sections);
+    // }
+    // else
+    // {
+    //     printf("You gotta pass the right args man");
+    // }
 
     return 0;
 }
